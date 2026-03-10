@@ -1,0 +1,68 @@
+//nivel-usor
+
+/*
+Problema :
+se citesc datele pentru n perosane:
+nume
+varsta
+salariu
+a)citeste persoanele
+b)stocheaza persoanele intr-un vector
+c)scrie datele intr-un fisier text
+d)citeste din fisier si afiseaza
+*/
+
+
+//includem librariile
+#include <stdio.h>
+#include <stdlib.h>
+
+
+struct Persoana{
+    char nume[50];
+    int varsta;
+    float salariu;
+};//dimensiunea este aproximativ 58 bytes(50+4+4)
+
+
+//fiecare persoana are un nume(alocat static de 50 bytes),varsta,salariu
+int main(){
+    
+    
+    
+    int n;
+    printf("Numar persoane: ");
+    scanf("%d",&n);
+    
+    struct Persoana v[100];
+    
+    //citim persoanele de la tastatura si le punem in vector de structuri
+    for(int i=0;i<n;i++){
+        printf("\nPersoana %d : \n",i+1);
+        printf("Nume: ");
+        scanf("%s",v[i].nume);
+        printf("Varsta: ");
+        scanf("%d",&v[i].varsta);
+        printf("Salariu: ");
+        scanf("%f",&v[i].salariu);
+    }
+    
+    //fisiere
+    FILE *f;
+    f=fopen("persoane.txt","w");//deschidem fisierul daca nu exista se creeaza,apoi folosim for pentru scriere in fisier
+    for(int i=0;i<n;i++){
+        fprintf(f,"%s  %d  %f\n",v[i].nume,v[i].varsta,v[i].salariu);
+    }
+    fclose(f);//inchidem fisierul persoane.txt
+    
+    f=fopen("persoane.txt","r");//citim fisierul
+    struct Persoana p;
+    printf("\nDate citite din fisier: \n");
+    while(fscanf(f," %s %d %f ",p.nume,&p.varsta,&p.salariu)!=EOF){//EOF=END OF FILE
+        printf("%s  %d  %f\n",p.nume,p.varsta,p.salariu);
+    }
+    fclose(f);
+    return 0;
+}
+
+
